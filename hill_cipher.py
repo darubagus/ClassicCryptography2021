@@ -19,8 +19,8 @@ def modinv(a, m):
         if error this function will return -inf.
     """
 
-    g, x, _ = egcd(a, m)
-    if g != 1:
+    gcd, x, _ = egcd(a, m)
+    if gcd != 1:
         return None
     else:
         return x % m
