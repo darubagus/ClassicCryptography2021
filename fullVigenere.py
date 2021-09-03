@@ -11,6 +11,12 @@ def textCleaning(text):
     text = text.replace(' ', '')
     return text
 
+def postProcess(text):
+    text = [text[i:i+5] for i in range(0, len(text), 5)]
+    text = ' '.join(text)
+
+    return text
+
 def generateKey(text, key):
     key = list(key)
     if len(text) == len(key):
@@ -51,6 +57,9 @@ def encrypt(text, key, matrix):
 
         cipher += matrix[row][col]
 
+    
+    cipher = postProcess(cipher)
+
     return cipher
 
 def decrypt(cipher, key, matrix):
@@ -67,6 +76,8 @@ def decrypt(cipher, key, matrix):
         idxLetter = vRow.index(cipher[i])
 
         plaintext += string.ascii_uppercase[idxLetter]
+
+    plaintext = postProcess(plaintext)
 
     return plaintext
             

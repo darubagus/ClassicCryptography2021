@@ -7,6 +7,12 @@ def textCleaning(text):
     text = text.replace(' ', '')
     return text
 
+def postProcess(text):
+    text = [text[i:i+5] for i in range(0, len(text), 5)]
+    text = ' '.join(text)
+
+    return text
+
 def matrix(x,y,initial):
     return [[initial for i in range(x)] for j in range(y)]
 
@@ -39,16 +45,18 @@ def encrypt(text, playFairMatrix):
         loc1=list()
         loc1=locateIndex(text[i+1], playFairMatrix)
         if loc[1]==loc1[1]:
-            cipher += playFairMatrix[(loc[0]+1)%5][loc[1]] + playFairMatrix[(loc1[0]+1)%5][loc1[1]] + " "
+            cipher += playFairMatrix[(loc[0]+1)%5][loc[1]] + playFairMatrix[(loc1[0]+1)%5][loc1[1]] 
             # print("{}{}".format(playFairMatrix[(loc[0]+1)%5][loc[1]],playFairMatrix[(loc1[0]+1)%5][loc1[1]]),end=' ')
         elif loc[0]==loc1[0]:
-            cipher += playFairMatrix[loc[0]][(loc[1]+1)%5] + playFairMatrix[loc1[0]][(loc1[1]+1)%5] + " "
+            cipher += playFairMatrix[loc[0]][(loc[1]+1)%5] + playFairMatrix[loc1[0]][(loc1[1]+1)%5] 
             # print("{}{}".format(playFairMatrix[loc[0]][(loc[1]+1)%5],playFairMatrix[loc1[0]][(loc1[1]+1)%5]),end=' ')  
         else:
-            cipher += playFairMatrix[loc[0]][loc1[1]] + playFairMatrix[loc1[0]][loc[1]] + " "
+            cipher += playFairMatrix[loc[0]][loc1[1]] + playFairMatrix[loc1[0]][loc[1]] 
             # print("{}{}".format(playFairMatrix[loc[0]][loc1[1]],playFairMatrix[loc1[0]][loc[1]]),end=' ')    
         i=i+2   
 
+    cipher = postProcess(cipher)
+    
     return cipher     
                  
 def decrypt(cipher, playFairMatrix):  #decryption
@@ -62,16 +70,18 @@ def decrypt(cipher, playFairMatrix):  #decryption
         loc1=list()
         loc1=locateIndex(cipher[i+1], playFairMatrix)
         if loc[1]==loc1[1]:
-            plainText += playFairMatrix[(loc[0]-1)%5][loc[1]] + playFairMatrix[(loc1[0]-1)%5][loc1[1]] + " "
+            plainText += playFairMatrix[(loc[0]-1)%5][loc[1]] + playFairMatrix[(loc1[0]-1)%5][loc1[1]] 
             # print("{}{}".format(playFairMatrix[(loc[0]-1)%5][loc[1]],playFairMatrix[(loc1[0]-1)%5][loc1[1]]),end=' ')
         elif loc[0]==loc1[0]:
-            plainText += playFairMatrix[loc[0]][(loc[1]-1)%5] + playFairMatrix[loc1[0]][(loc1[1]-1)%5] + " "
+            plainText += playFairMatrix[loc[0]][(loc[1]-1)%5] + playFairMatrix[loc1[0]][(loc1[1]-1)%5] 
             # print("{}{}".format(playFairMatrix[loc[0]][(loc[1]-1)%5],playFairMatrix[loc1[0]][(loc1[1]-1)%5]),end=' ')  
         else:
-            plainText += playFairMatrix[loc[0]][loc1[1]] + playFairMatrix[loc1[0]][loc[1]] + " "
+            plainText += playFairMatrix[loc[0]][loc1[1]] + playFairMatrix[loc1[0]][loc[1]] 
             # print("{}{}".format(playFairMatrix[loc[0]][loc1[1]],playFairMatrix[loc1[0]][loc[1]]),end=' ')    
         i=i+2      
 
+    plainText = postProcess(plainText)
+    
     return plainText  
 
 

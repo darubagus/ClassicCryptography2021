@@ -7,6 +7,12 @@ def textCleaning(text):
     text = text.replace(' ', '')
     return text
 
+def postProcess(text):
+    text = [text[i:i+5] for i in range(0, len(text), 5)]
+    text = ' '.join(text)
+
+    return text
+
 # Extended Euclidean Algorithm
 def egcd(a, b):
     # example egcd(7,26) = 15
@@ -32,25 +38,33 @@ def modinv(a, m):
  
 def affineEncrypt(text, key):
     # C = (a*P + b) % 26
-    return ''.join([ chr((( key[0]*(ord(t) - ord('A')) + key[1] ) % 26)
+    cipher = ''.join([ chr((( key[0]*(ord(t) - ord('A')) + key[1] ) % 26)
                   + ord('A')) for t in text.upper().replace(' ', '') ])
+
+    cipher = postProcess(cipher)
+
+    return cipher
  
  
 def affineDecrypt(cipher, key):
     # P = (a^-1 * (C - b)) % 26
-    return ''.join([ chr((( modinv(key[0], 26)*(ord(c) - ord('A') - key[1]))
+    plainText = ''.join([ chr((( modinv(key[0], 26)*(ord(c) - ord('A') - key[1]))
                     % 26) + ord('A')) for c in cipher ])
+    
+    plainText = postProcess(plainText)
+
+    return plainText
  
  
 def main():
-    text = 'kripto'
+    text = 'kripto kelas pa rin'
     key = [17, 26]
  
     affine_encrypted_text = affineEncrypt(text, key)
  
     print('Encrypted Text: {}'.format( affine_encrypted_text ))
  
-    print('Decrypted Text: {}'.format(affineDecrypt(affine_encrypted_text, key) ))
+    print('Decrypted Text: {}'.format(affineDecrypt(textCleaning(affine_encrypted_text), key) ))
  
  
 if __name__ == '__main__':
