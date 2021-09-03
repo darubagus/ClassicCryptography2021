@@ -1,7 +1,11 @@
 import string
+from typing import Iterable
 
 alphabet = list(string.ascii_uppercase)
 
 print(alphabet)
 
-print(bytes('tsadasd',))
+text = 'ABCDEF'
+test = [ord(chr) for chr in text]
+
+print(test)
