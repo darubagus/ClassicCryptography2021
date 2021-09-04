@@ -1,5 +1,8 @@
 import re
 
+global alphabet
+alphabet = [chr(97 + i) for i in range(26)]
+
 
 def clean_text(text: str) -> str:
     res = text
@@ -44,6 +47,8 @@ def generate_key_auto(plain_text: str, key: str) -> str:
 def vignere_cipher_encrypt(plain_text: str, key: str) -> str:
     cipher_text = ""
 
+    print(plain_text)
+    print(key)
     for i in range(len(plain_text)):
         curr_plain_text_num = ord(plain_text[i]) - ord('a')
         curr_key_text_num = ord(key[i]) - ord('a')
@@ -67,11 +72,17 @@ def vignere_cipher_decrypt(cipher_text: str, key: str) -> str:
     return plain_text
 
 
+def vignere_cipher_standard_decrypt(cipher_text: str, key: str):
+    full_key = generate_key_standard(cipher_text, clean_text(key))
+
+    return vignere_cipher_decrypt(cipher_text, full_key)
+
+
 def vignere_cipher_standard_encrypt(plain_text: str, key: str):
     clean_plain_text = clean_text(plain_text)
     full_key = generate_key_standard(clean_plain_text, clean_text(key))
 
-    return vignere_cipher_encrypt(clean_plain_text, full_key), full_key
+    return vignere_cipher_encrypt(clean_plain_text, full_key)
 
 
 def vignere_cipher_auto_key_encrypt(plain_text: str, key: str):
@@ -83,7 +94,6 @@ def vignere_cipher_auto_key_encrypt(plain_text: str, key: str):
 
 def main():
     global alphabet
-    alphabet = [chr(97 + i) for i in range(26)]
 
     plain_text = "simanalagi"
     key = "karel"

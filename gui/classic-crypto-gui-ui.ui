@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1129</width>
+    <width>1124</width>
     <height>868</height>
    </rect>
   </property>
@@ -65,7 +65,7 @@ color: #112031</string>
     <property name="geometry">
      <rect>
       <x>580</x>
-      <y>660</y>
+      <y>670</y>
       <width>391</width>
       <height>31</height>
      </rect>
@@ -151,7 +151,7 @@ border: none;</string>
     <property name="geometry">
      <rect>
       <x>580</x>
-      <y>700</y>
+      <y>710</y>
       <width>391</width>
       <height>61</height>
      </rect>
@@ -190,7 +190,7 @@ font: 75 13pt &quot;Cascadia Code&quot;;</string>
     <property name="geometry">
      <rect>
       <x>580</x>
-      <y>530</y>
+      <y>540</y>
       <width>391</width>
       <height>111</height>
      </rect>
@@ -282,7 +282,7 @@ font: 75 13pt &quot;Cascadia Code&quot;;</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1129</width>
+     <width>1124</width>
      <height>21</height>
     </rect>
    </property>
