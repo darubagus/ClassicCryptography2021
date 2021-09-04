@@ -35,8 +35,10 @@ def encrypt(text, playFairMatrix):
         if s<len(text)-1:
             if text[s]==text[s+1]:
                 text=text[:s+1]+'X'+text[s+1:]
+
     if len(text)%2!=0:
         text=text[:]+'X'
+        
     print("CIPHER TEXT:",end='')
     
     while i<len(text):
