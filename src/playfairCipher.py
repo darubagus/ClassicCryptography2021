@@ -44,7 +44,7 @@ def encrypt(text, playFairMatrix):
     if len(text) % 2 != 0:
         text = text[:]+'X'
 
-    print("CIPHER TEXT:", end='')
+    # print("CIPHER TEXT:", end='')
 
     while i < len(text):
         loc = list()
@@ -52,16 +52,13 @@ def encrypt(text, playFairMatrix):
         loc1 = list()
         loc1 = locateIndex(text[i+1], playFairMatrix)
         if loc[1] == loc1[1]:
-            cipher += playFairMatrix[(loc[0]+1) % 5][loc[1]] + \
-                playFairMatrix[(loc1[0]+1) % 5][loc1[1]]
+            cipher += playFairMatrix[(loc[0]+1)%5][loc[1]] + playFairMatrix[(loc1[0]+1)%5][loc1[1]]
             # print("{}{}".format(playFairMatrix[(loc[0]+1)%5][loc[1]],playFairMatrix[(loc1[0]+1)%5][loc1[1]]),end=' ')
         elif loc[0] == loc1[0]:
-            cipher += playFairMatrix[loc[0]][(loc[1]+1) %
-                                             5] + playFairMatrix[loc1[0]][(loc1[1]+1) % 5]
+            cipher += playFairMatrix[loc[0]][(loc[1]+1) % 5] + playFairMatrix[loc1[0]][(loc1[1]+1) % 5]
             # print("{}{}".format(playFairMatrix[loc[0]][(loc[1]+1)%5],playFairMatrix[loc1[0]][(loc1[1]+1)%5]),end=' ')
         else:
-            cipher += playFairMatrix[loc[0]][loc1[1]
-                                             ] + playFairMatrix[loc1[0]][loc[1]]
+            cipher += playFairMatrix[loc[0]][loc1[1]] + playFairMatrix[loc1[0]][loc[1]]
             # print("{}{}".format(playFairMatrix[loc[0]][loc1[1]],playFairMatrix[loc1[0]][loc[1]]),end=' ')
         i = i+2
 
@@ -73,7 +70,7 @@ def encrypt(text, playFairMatrix):
 def decrypt(cipher, playFairMatrix):  # decryption
     cipher = textCleaning(cipher)
     plainText = ''
-    print("PLAIN TEXT:", end=' ')
+    # print("PLAIN TEXT:", end=' ')
     i = 0
     while i < len(cipher):
         loc = list()
@@ -100,6 +97,7 @@ def decrypt(cipher, playFairMatrix):  # decryption
 
 
 def generatePlayfairSquare(key):
+    key = key.upper()
     result = list()
 
     for c in key:  # storing key
@@ -149,15 +147,33 @@ def generatePlayfairSquare(key):
 #         print("Choose correct choice")
 
 def main():
-    key = textCleaning('sony')
-    res = ''
-    PS = generatePlayfairSquare(key)
-    for i in range(len(PS)):
-        for j in range(len(PS[0])):
-            res += ('{} '.format(PS[i][j]))
-        res += '\n'
+    # key = textCleaning('sony')
+    # res = ''
+    # PS = generatePlayfairSquare(key)
+    # for i in range(len(PS)):
+    #     for j in range(len(PS[0])):
+    #         res += ('{} '.format(PS[i][j]))
+    #     res += '\n'
 
-    print(res)
+    # print(res)
+    while(1):
+        choice=int(input("\n 1.Encryption \n 2.Decryption: \n 3.EXIT \n"))
+        key=input("Enter key : ")
+        key = textCleaning(key)
+
+        PS = generatePlayfairSquare(key)
+        if choice==1:
+            plainText = input("Enter Plaintext : ")
+            plainText = textCleaning(plainText)
+            print(encrypt(plainText, PS))
+        elif choice==2:
+            cipher = input('Enter cipher : ')
+            cipher = textCleaning(cipher)
+            print(decrypt(cipher,PS))
+        elif choice==3:
+            exit()
+        else:
+            print("Choose correct choice")
     return 0
 
 if __name__ == '__main__':

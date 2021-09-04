@@ -158,7 +158,7 @@ class Ui_MainWindow(object):
                 res += vignere_cipher.vignere_cipher_standard_encrypt(
                     text, key)
                 res += "\n\n"
-            elif cipherAlgorithm == "Full Vignere Cipher Decrypt":
+            elif cipherAlgorithm == "Full Vignere Cipher Encrypt":
                 # matrix = fullVigenere.generateFullVigenereMatrix()
                 res += fullVigenere.encrypt(text, key, self.matrix)
                 res += "\n\n"
@@ -175,11 +175,20 @@ class Ui_MainWindow(object):
                 res += newKey
                 res += "\n\n"
             elif cipherAlgorithm == "Playfair Cipher Encrypt":
-                # parsing key
-                newKey = key.split(', ')
                 # encryption
                 playfairSquare = playfairCipher.generatePlayfairSquare(key)
-                res += playfairCipher.encrypt(text, playfairSquare) + '\n'
+                res += playfairCipher.encrypt(text, playfairSquare) + '\n\n'
+                for i in range(len(playfairSquare)):
+                    for j in range(len(playfairSquare[0])):
+                        res += ('{} '.format(playfairSquare[i][j]))
+                    res += '\n'
+            elif cipherAlgorithm == "Affine Cipher Encrypt":
+                # parsing key
+                newKey = key.split(',')
+                newKey = [int(item) for item in newKey]
+                # decryption
+                res += affineCipher.affineEncrypt(text, newKey)
+                res += "\n\n"
             elif cipherAlgorithm == "Hill Cipher Encrypt":
                 key = json.loads(key)
                 res += hill_cipher.hill_cipher_encrypt(text, key)
@@ -203,7 +212,7 @@ class Ui_MainWindow(object):
                 res += vignere_cipher.vignere_cipher_decrypt(text, key)
             # elif cipherAlgorithm == "Extended Vignere Cipher Decrypt":
 
-            elif cipherAlgorithm == "Playfair Cipher Decryrpt":
+            elif cipherAlgorithm == "Playfair Cipher Decrypt":
                 playfairSquare = playfairCipher.generatePlayfairSquare(key)
                 res += playfairCipher.decrypt(text, playfairSquare) + '\n\n'
                 for i in range(len(playfairSquare)):
@@ -212,8 +221,10 @@ class Ui_MainWindow(object):
                     res += '\n'
             elif cipherAlgorithm == "Affine Cipher Decrypt":
                 # parsing key
-                newKey = key.split(', ')
+                newKey = key.split(',')
+                newKey = [int(item) for item in newKey]
                 # decryption
+                text = affineCipher.textCleaning(text)
                 res += affineCipher.affineDecrypt(text, newKey)
                 res += "\n\n"
             elif cipherAlgorithm == "Hill Cipher Decrypt":
