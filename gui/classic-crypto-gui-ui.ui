@@ -65,7 +65,7 @@ color: #112031</string>
     <property name="geometry">
      <rect>
       <x>580</x>
-      <y>630</y>
+      <y>660</y>
       <width>391</width>
       <height>31</height>
      </rect>
@@ -151,7 +151,7 @@ border: none;</string>
     <property name="geometry">
      <rect>
       <x>580</x>
-      <y>670</y>
+      <y>700</y>
       <width>391</width>
       <height>61</height>
      </rect>
@@ -172,7 +172,7 @@ border-radius: 5px;</string>
       <x>160</x>
       <y>530</y>
       <width>401</width>
-      <height>201</height>
+      <height>101</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -190,7 +190,7 @@ font: 75 13pt &quot;Cascadia Code&quot;;</string>
     <property name="geometry">
      <rect>
       <x>580</x>
-      <y>500</y>
+      <y>530</y>
       <width>391</width>
       <height>111</height>
      </rect>
@@ -237,6 +237,43 @@ font: 75 13pt &quot;Cascadia Code&quot;;</string>
     </property>
     <property name="text">
      <string>Text Output</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_4">
+    <property name="geometry">
+     <rect>
+      <x>160</x>
+      <y>640</y>
+      <width>111</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: #D4ECDD;
+font: 75 13pt &quot;Cascadia Code&quot;;</string>
+    </property>
+    <property name="text">
+     <string>Key Input</string>
+    </property>
+   </widget>
+   <widget class="QPlainTextEdit" name="inputText_2">
+    <property name="geometry">
+     <rect>
+      <x>160</x>
+      <y>670</y>
+      <width>401</width>
+      <height>101</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border: 2px solid #D4ECDD;
+border-radius: 5px;
+color: rgb(212, 236, 221);
+padding: 5px;
+font: 75 13pt &quot;Cascadia Code&quot;;</string>
+    </property>
+    <property name="plainText">
+     <string/>
     </property>
    </widget>
   </widget>

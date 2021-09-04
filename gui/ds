@@ -1,0 +1,10 @@
+    # Add method here...
+    def inputFileHandler(self):
+        file = QtWidgets.QFileDialog.getOpenFileName()
+        path = file[0]
+        filename = path.split('/')[-1]
+
+        self.inputFileButton.setText(filename)
+
+        # Coding here....
+        self.inputFileButton.clicked.connect(self.inputFileHandler)
