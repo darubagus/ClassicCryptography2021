@@ -85,27 +85,36 @@ def decrypt(cipher, key, matrix):
     plaintext = postProcess(plaintext)
 
     return plaintext
+            
+def main():
+    matrix = generateFullVigenereMatrix();
+    # for i in range(len(matrix)):
+    #     for j in range(len(matrix[0])):
+    #         print('{}'.format(matrix[i][j]), end='')
+    #     print()
+    
+    # arrmat = matrix.split('\n')
+    while 1 :
+        choice=int(input("\n 1.Encryption \n 2.Decryption: \n 3.EXIT \n"))
+        if choice==1:
+            # matrix = generateFullVigenereMatrix();
+            plaintext = input('Insert Plaintext :')
+            key = input('Insert Key : ')
+            print('Result : ' + encrypt(plaintext, key, matrix))
+        elif choice==2:
+            # matrix = generateFullVigenereMatrix();
+            cipher = input("Insert Ciphertext : ")
+            key = input('Insert Key : ')
+            print('Result : ' + decrypt(cipher, key, matrix))
+        elif choice==3:
+            exit()
+        else:
+            print("Choose correct choice")
+    return 0
 
-# def main():
-#     matrix = generateFullVigenereMatrix();
-#     while 1 :
-#         choice=int(input("\n 1.Encryption \n 2.Decryption: \n 3.EXIT \n"))
-#         if choice==1:
-#             plaintext = input('Insert Plaintext :')
-#             key = input('Insert Key : ')
-#             print('Result : ' + encrypt(plaintext, key, matrix))
-#         elif choice==2:
-#             cipher = input("Insert Ciphertext : ")
-#             key = input('Insert Key : ')
-#             print('Result : ' + decrypt(cipher, key, matrix))
-#         elif choice==3:
-#             exit()
-#         else:
-#             print("Choose correct choice")
-#     return 0
 
 
-# # key=input("Enter key")
+# key=input("Enter key")
 
-# if __name__ == '__main__':
-#     main()
+if __name__ == '__main__':
+    main()
