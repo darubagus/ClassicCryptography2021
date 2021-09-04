@@ -4,12 +4,14 @@ import string
 
 alphabetUppercase = list(string.ascii_uppercase)
 
+
 def textCleaning(text):
     text = text.upper()
-    text = re.sub(r'\s*\d+\s*', '',text)
+    text = re.sub(r'\s*\d+\s*', '', text)
     text = re.sub(r'[^\w\s]', '', text)
     text = text.replace(' ', '')
     return text
+
 
 def postProcess(text):
     text = [text[i:i+5] for i in range(0, len(text), 5)]
@@ -17,17 +19,19 @@ def postProcess(text):
 
     return text
 
+
 def generateKey(text, key):
     key = list(key)
     if len(text) == len(key):
         return(key)
-    else :
+    else:
         for i in range(len(text)-len(key)):
-            key.append(key[i%len(key)])
+            key.append(key[i % len(key)])
     retVal = "".join(key)
     retVal.upper()
 
     return(retVal)
+
 
 def generateFullVigenereMatrix():
     matrix = []
@@ -40,12 +44,13 @@ def generateFullVigenereMatrix():
             if tempStr not in matrix:
                 isDuplicate = False
         matrix.append(tempStr)
-    
+
     return matrix
+
 
 def encrypt(text, key, matrix):
     text = textCleaning(text)
-    key = generateKey(text,key).upper()
+    key = generateKey(text, key).upper()
     # text is cleaned
 
     cipher = ''
@@ -57,14 +62,14 @@ def encrypt(text, key, matrix):
 
         cipher += matrix[row][col]
 
-    
     cipher = postProcess(cipher)
 
     return cipher
 
+
 def decrypt(cipher, key, matrix):
     cipher = textCleaning(cipher)
-    key = generateKey(cipher,key).upper()
+    key = generateKey(cipher, key).upper()
     # ciphertext is cleaned
 
     plaintext = ''
