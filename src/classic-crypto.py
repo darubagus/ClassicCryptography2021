@@ -119,7 +119,7 @@ class Ui_MainWindow(object):
         MainWindow.setStatusBar(self.statusbar)
 
         # Coding here....
-
+        self.pathFile = ""
         self.matrix = fullVigenere.generateFullVigenereMatrix()
         self.inputFileButton.clicked.connect(self.inputFileHandler)
 
@@ -141,7 +141,7 @@ class Ui_MainWindow(object):
         text = self.inputText.toPlainText()
         key = self.inputText_2.toPlainText()
 
-        if(self.pathFile):
+        if(self.pathFile != ""):
             f = open(self.pathFile)
             text = f.read()
 
@@ -251,6 +251,8 @@ class Ui_MainWindow(object):
                         res = "Dimensi key harus bisa membagi panjang text nya!"
                 else:
                     res += "Please input valid key!"
+
+        self.outputTextArea.setPlainText(res)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
