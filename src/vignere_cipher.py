@@ -13,6 +13,8 @@ def clean_text(text: str) -> str:
     # Remove whitespace
     res.strip()
 
+    res = res.replace(" ", "")
+
     # Remove number
     res = ''.join([i for i in res if not i.isdigit()])
 
@@ -39,7 +41,7 @@ def generate_key_auto(plain_text: str, key: str) -> str:
 
     full_key: str = key
     for i in range(len(plain_text) - len(key)):
-        full_key += plain_text[i % len(key)]
+        full_key += plain_text[i]
 
     return full_key
 
@@ -47,8 +49,6 @@ def generate_key_auto(plain_text: str, key: str) -> str:
 def vignere_cipher_encrypt(plain_text: str, key: str) -> str:
     cipher_text = ""
 
-    print(plain_text)
-    print(key)
     for i in range(len(plain_text)):
         curr_plain_text_num = ord(plain_text[i]) - ord('a')
         curr_key_text_num = ord(key[i]) - ord('a')
@@ -92,27 +92,25 @@ def vignere_cipher_auto_key_encrypt(plain_text: str, key: str):
     return vignere_cipher_encrypt(clean_plain_text, full_key), full_key
 
 
-def main():
-    global alphabet
+# def main():
+#     plain_text = "simanalagi"
+#     key = "karel"
 
-    plain_text = "simanalagi"
-    key = "karel"
+#     cipher_text, full_key = vignere_cipher_standard_encrypt(plain_text, key)
+#     print(cipher_text)
 
-    cipher_text, full_key = vignere_cipher_standard_encrypt(plain_text, key)
-    print(cipher_text)
+#     decrypt_text = vignere_cipher_decrypt(cipher_text, full_key)
+#     print(decrypt_text)
 
-    decrypt_text = vignere_cipher_decrypt(cipher_text, full_key)
-    print(decrypt_text)
+#     cipher_text_2, full_key_2 = vignere_cipher_auto_key_encrypt(
+#         plain_text,
+#         key
+#     )
+#     print(cipher_text_2)
 
-    cipher_text_2, full_key_2 = vignere_cipher_auto_key_encrypt(
-        plain_text,
-        key
-    )
-    print(cipher_text_2)
-
-    decrypt_text = vignere_cipher_decrypt(cipher_text_2, full_key_2)
-    print(decrypt_text)
+#     decrypt_text = vignere_cipher_decrypt(cipher_text_2, full_key_2)
+#     print(decrypt_text)
 
 
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#     main()

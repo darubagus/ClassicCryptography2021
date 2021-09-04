@@ -1,12 +1,7 @@
 import json
 from PyQt5 import QtCore, QtWidgets
 import sys
-# from affineCipher import *
-# from extendedVigenere import *
-# from fullVigenere import *
-# from hill_cipher import *
-# from playfairCipher import *
-# from vignere_cipher import *
+import numpy as np
 import affineCipher
 import extendedVigenere
 import fullVigenere
@@ -146,9 +141,14 @@ class Ui_MainWindow(object):
         text = self.inputText.toPlainText()
         key = self.inputText_2.toPlainText()
 
-        res = ""
+        if(self.pathFile):
+            f = open(self.pathFile)
+            text = f.read()
 
-        print("encrypt" in cipherAlgorithm)
+        if(len(key) == 0):
+            return
+
+        res = ""
 
         # Encrypt
         if("encrypt" in cipherAlgorithm.lower()):
@@ -158,6 +158,7 @@ class Ui_MainWindow(object):
                 res += vignere_cipher.vignere_cipher_standard_encrypt(
                     text, key)
                 res += "\n\n"
+
             elif cipherAlgorithm == "Full Vignere Cipher Decrypt":
                 # matrix = fullVigenere.generateFullVigenereMatrix()
                 res += fullVigenere.encrypt(text, key, self.matrix)
@@ -166,24 +167,36 @@ class Ui_MainWindow(object):
                     for j in range(len(self.matrix[0])):
                         res += ('{} '.format(self.matrix[i][j]))
                     res += '\n'
-            elif cipherAlgorithm == "Auto Key Vignere Encrypt":
+
+            elif cipherAlgorithm == "Auto Key Vignere Cipher Encrypt":
                 cipherText, newKey = vignere_cipher.vignere_cipher_auto_key_encrypt(
                     text, key)
+                res += "Result:\n"
                 res += cipherText
                 res += "\n"
-                res += "New Key\n"
+                res += "New Key:\n"
                 res += newKey
                 res += "\n\n"
+
             elif cipherAlgorithm == "Playfair Cipher Encrypt":
                 # parsing key
                 newKey = key.split(', ')
                 # encryption
                 playfairSquare = playfairCipher.generatePlayfairSquare(key)
                 res += playfairCipher.encrypt(text, playfairSquare) + '\n'
+
             elif cipherAlgorithm == "Hill Cipher Encrypt":
                 key = json.loads(key)
-                res += hill_cipher.hill_cipher_encrypt(text, key)
-                res += "\n\n"
+                if(isinstance(key, list)):
+                    try:
+                        key = np.array(key)
+                        res += "Result:\n"
+                        res += hill_cipher.hill_cipher_encrypt(text, key)
+                        res += "\n\n"
+                    except:
+                        res = "Dimensi key harus bisa membagi panjang text nya!"
+                else:
+                    res += "Please input valid key!"
         else:
             print("decrypt")
             print(cipherAlgorithm)
@@ -199,7 +212,7 @@ class Ui_MainWindow(object):
                         res += ('{} '.format(self.matrix[i][j]))
                     res += '\n'
                 res += '\n'
-            elif cipherAlgorithm == "Auto Key Vignere Decrypt":
+            elif cipherAlgorithm == "Auto Key Vignere Cipher Decrypt":
                 res += vignere_cipher.vignere_cipher_decrypt(text, key)
             # elif cipherAlgorithm == "Extended Vignere Cipher Decrypt":
 
@@ -216,12 +229,19 @@ class Ui_MainWindow(object):
                 # decryption
                 res += affineCipher.affineDecrypt(text, newKey)
                 res += "\n\n"
+
             elif cipherAlgorithm == "Hill Cipher Decrypt":
                 key = json.loads(key)
-                res += hill_cipher.hill_cipher_decrypt(text, key)
-                res += "\n\n"
-
-        print(res)
+                if(isinstance(key, list)):
+                    try:
+                        key = np.array(key)
+                        res += "Result:\n"
+                        res += hill_cipher.hill_cipher_decrypt(text, key)
+                        res += "\n\n"
+                    except:
+                        res = "Dimensi key harus bisa membagi panjang text nya!"
+                else:
+                    res += "Please input valid key!"
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate

@@ -1,4 +1,31 @@
 import numpy as np
+import re
+
+alphabet = "abcdefghijklmnopqrstuvwxyz"
+
+global char_to_num, num_to_char
+char_to_num = dict(zip(alphabet, range(len(alphabet))))
+num_to_char = dict(zip(range(len(alphabet)), alphabet))
+
+
+def clean_text(text: str) -> str:
+    res = text
+
+    # Convert to lowercase
+    res = res.lower()
+
+    # Remove whitespace
+    res.strip()
+
+    res = res.replace(" ", "")
+
+    # Remove number
+    res = ''.join([i for i in res if not i.isdigit()])
+
+    # Remove punctuation
+    res = re.sub(r'[^\w\s]', '', res)
+
+    return res
 
 
 def egcd(m, n):
@@ -43,6 +70,7 @@ def matrix_modulo_invers(matrix: np.ndarray, modulus: int = 26) -> np.ndarray:
 
 def hill_cipher_encrypt(plain_text: str, key: np.ndarray, modulus=26) -> str:
     cipher_text = ""
+    plain_text = clean_text(plain_text)
 
     n, _ = key.shape
     plain_text_num = [char_to_num[el] for el in plain_text]
@@ -96,24 +124,5 @@ def hill_cipher_decrypt(cipher_text: str, key: np.ndarray, modulus=26) -> str:
 
     return plain_text
 
-
-def main():
-    alphabet = "abcdefghijklmnopqrstuvwxyz"
-
-    global char_to_num, num_to_char
-    char_to_num = dict(zip(alphabet, range(len(alphabet))))
-    num_to_char = dict(zip(range(len(alphabet)), alphabet))
-
-    plain_text = "paymoremoney"
-    key = np.array([[3, 10], [15, 9]])
-    key = np.array([[17, 17, 5], [21, 18, 21], [2, 2, 19]])
-
-    cipher_text = hill_cipher_encrypt(plain_text, key)
-    print(cipher_text)
-
-    decrypt_text = hill_cipher_decrypt(cipher_text, key)
-    print(decrypt_text)
-
-
-if __name__ == "__main__":
-    main()
+# key = np.array([[3, 10], [15, 9]])
+# key = np.array([[17, 17, 5], [21, 18, 21], [2, 2, 19]])
