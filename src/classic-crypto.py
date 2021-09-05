@@ -9,6 +9,10 @@ import hill_cipher
 import playfairCipher
 import vignere_cipher
 
+import uuid
+import os
+
+
 # sys.path.append('/src')
 
 
@@ -142,8 +146,10 @@ class Ui_MainWindow(object):
         key = self.inputText_2.toPlainText()
 
         if(self.pathFile != ""):
-            f = open(self.pathFile)
-            text = f.read()
+            ext = os.path.splitext(self.pathFile)[1]
+            if(ext == ".txt"):
+                f = open(self.pathFile)
+                text = f.read()
 
         if(len(key) == 0):
             return
@@ -152,30 +158,54 @@ class Ui_MainWindow(object):
 
         # Encrypt
         if("encrypt" in cipherAlgorithm.lower()):
-            print("encrypt")
-            print(cipherAlgorithm)
             if cipherAlgorithm == "Vignere Cipher Standard Encrypt":
-                res += vignere_cipher.vignere_cipher_standard_encrypt(
-                    text, key)
-                res += "\n\n"
+                cipherText = vignere_cipher.vignere_cipher_standard_encrypt(text, key)
+
+                res += "Cipher Text:\n\n"
+                res += cipherText
+                res += "\n"
+                res += ' '.join([cipherText[i: i+5] for i in range(0, len(cipherText), 5)])
+
             elif cipherAlgorithm == "Full Vignere Cipher Encrypt":
-                # matrix = fullVigenere.generateFullVigenereMatrix()
                 res += fullVigenere.encrypt(text, key, self.matrix)
                 res += "\n\n"
+
                 for i in range(len(self.matrix)):
                     for j in range(len(self.matrix[0])):
                         res += ('{} '.format(self.matrix[i][j]))
                     res += '\n'
 
             elif cipherAlgorithm == "Auto Key Vignere Cipher Encrypt":
-                cipherText, newKey = vignere_cipher.vignere_cipher_auto_key_encrypt(
-                    text, key)
-                res += "Result:\n"
+                cipherText, newKey = vignere_cipher.vignere_cipher_auto_key_encrypt(text, key)
+
+                res += "Cipher Text:\n"
                 res += cipherText
                 res += "\n"
+                res += ' '.join([cipherText[i: i+5] for i in range(0, len(cipherText), 5)])
+                res += "\n\n"
                 res += "New Key:\n"
                 res += newKey
-                res += "\n\n"
+
+            elif cipherAlgorithm == "Extended Vignere Cipher Encrypt":
+                if(self.pathFile != ""):
+                    dir_path = os.path.dirname(os.path.realpath(__file__))
+                    filename = "data/res/" + str(uuid.uuid4()) + os.path.splitext(self.pathFile)[1]
+
+                    full_path = os.path.join(dir_path, filename)
+
+                    success = extendedVigenere.extended_vignere_cipher_encrypt(
+                        self.pathFile, 
+                        key, 
+                        full_path
+                    )
+
+                    if(success):
+                        res += "Success Encrypt File, Please Check This Directory:\n"
+                        res += full_path
+                    else:
+                        res += "Fail encrypt file"
+                else:
+                    res = "Please input file!"
 
             elif cipherAlgorithm == "Playfair Cipher Encrypt":
                 # encryption
@@ -185,13 +215,15 @@ class Ui_MainWindow(object):
                     for j in range(len(playfairSquare[0])):
                         res += ('{} '.format(playfairSquare[i][j]))
                     res += '\n'
+                      
             elif cipherAlgorithm == "Affine Cipher Encrypt":
                 # parsing key
                 newKey = key.split(',')
                 newKey = [int(item) for item in newKey]
+
                 # decryption
                 res += affineCipher.affineEncrypt(text, newKey)
-                res += "\n\n"
+
             elif cipherAlgorithm == "Hill Cipher Encrypt":
                 key = json.loads(key)
                 if(isinstance(key, list)):
@@ -199,18 +231,19 @@ class Ui_MainWindow(object):
                         key = np.array(key)
                         res += "Result:\n"
                         res += hill_cipher.hill_cipher_encrypt(text, key)
-                        res += "\n\n"
                     except:
                         res = "Dimensi key harus bisa membagi panjang text nya!"
                 else:
                     res += "Please input valid key!"
         else:
-            print("decrypt")
-            print(cipherAlgorithm)
             if cipherAlgorithm == "Vignere Cipher Standard Decrypt":
-                res += vignere_cipher.vignere_cipher_standard_decrypt(
-                    text, key)
-                res += "\n\n"
+                plainText = vignere_cipher.vignere_cipher_standard_decrypt(text, key)
+
+                res += "Plain Text:\n\n"
+                res += plainText
+                res += "\n"
+                res += ' '.join([plainText[i: i+5] for i in range(0, len(plainText), 5)])
+
             elif cipherAlgorithm == "Full Vignere Cipher Decrypt":
                 res += fullVigenere.decrypt(text, key, self.matrix)
                 res += '\n\n'
@@ -218,10 +251,35 @@ class Ui_MainWindow(object):
                     for j in range(len(self.matrix[0])):
                         res += ('{} '.format(self.matrix[i][j]))
                     res += '\n'
-                res += '\n'
+
             elif cipherAlgorithm == "Auto Key Vignere Cipher Decrypt":
-                res += vignere_cipher.vignere_cipher_decrypt(text, key)
-            # elif cipherAlgorithm == "Extended Vignere Cipher Decrypt":
+                plainText = vignere_cipher.vignere_cipher_auto_key_decrypt(text, key)
+
+                res += "Plain Text:\n\n"
+                res += plainText
+                res += "\n"
+                res += ' '.join([plainText[i: i+5] for i in range(0, len(plainText), 5)])
+
+            elif cipherAlgorithm == "Extended Vignere Cipher Decrypt":
+                if(self.pathFile != ""):
+                    dir_path = os.path.dirname(os.path.realpath(__file__))
+                    filename = "data/res/" + str(uuid.uuid4()) + os.path.splitext(self.pathFile)[1]
+
+                    full_path = os.path.join(dir_path, filename)
+
+                    success = extendedVigenere.extended_vignere_cipher_decrypt(
+                        self.pathFile, 
+                        key, 
+                        full_path
+                    )
+
+                    if(success):
+                        res += "Success Decrypt File, Please Check This Directory:\n"
+                        res += full_path
+                    else:
+                        res += "Fail decrypt file"
+                else:
+                    res = "Please input file!"
 
             elif cipherAlgorithm == "Playfair Cipher Decrypt":
                 playfairSquare = playfairCipher.generatePlayfairSquare(key)
@@ -230,29 +288,51 @@ class Ui_MainWindow(object):
                     for j in range(len(playfairSquare[0])):
                         res += ('{} '.format(playfairSquare[i][j]))
                     res += '\n'
+
             elif cipherAlgorithm == "Affine Cipher Decrypt":
                 # parsing key
                 newKey = key.split(',')
                 newKey = [int(item) for item in newKey]
+
                 # decryption
                 text = affineCipher.textCleaning(text)
                 res += affineCipher.affineDecrypt(text, newKey)
-                res += "\n\n"
 
             elif cipherAlgorithm == "Hill Cipher Decrypt":
                 key = json.loads(key)
                 if(isinstance(key, list)):
                     try:
                         key = np.array(key)
-                        res += "Result:\n"
-                        res += hill_cipher.hill_cipher_decrypt(text, key)
-                        res += "\n\n"
+                        plainText = hill_cipher.hill_cipher_decrypt(text, key)
+                        res += "Plain Text:\n\n"
+                        res += plainText
+                        res += "\n"
+                        res += ' '.join([plainText[i: i+5] for i in range(0, len(plainText), 5)])
                     except:
-                        res = "Dimensi key harus bisa membagi panjang text nya!"
+                        res += "Dimensi key harus bisa membagi panjang text nya!"
+                        res += "Panjang text sekarang = {}".format(len(hill_cipher.clean_text(text)))
+                        res += "Dimensi key sekarang = {}".format(key.shape[0])
                 else:
                     res += "Please input valid key!"
 
+        if("Extended Vignere Cipher" not in cipherAlgorithm):
+            dir_path = os.path.dirname(os.path.realpath(__file__))
+            filename = "data/res/" + str(uuid.uuid4()) + ".txt"
+
+            full_path = os.path.join(dir_path, filename)
+            f = open(full_path, 'w')
+            f.write(res)
+
+            res += "\n\n"
+            res += "This Result Has Been Saved, Please Check This Directory:\n"
+            res += full_path
+
+        # Clear input
         self.outputTextArea.setPlainText(res)
+        self.pathFile = ""
+        self.inputFileButton.setText("Input File")
+        self.inputText.setPlainText("")
+        self.inputText_2.setPlainText("")
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate

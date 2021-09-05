@@ -1,49 +1,43 @@
-import string
-import re
+import vignere_cipher as vc
 
-def textCleaning(text):
-    text = text.upper()
-    text = re.sub(r'\s*\d+\s*', '',text)
-    text = re.sub(r'[^\w\s]', '', text)
-    text = text.replace(' ', '')
-    return text
+BYTE_MAX = 256
 
-def postProcess(text):
-    text = [text[i:i+5] for i in range(0, len(text), 5)]
-    text = ' '.join(text)
+def extended_vignere_cipher_encrypt(src_path: str, key: str, dest_path: str) -> bool :
+    try:
+        f = open(src_path, 'rb')
 
-    return text
+        fileData = bytearray(f.read())
+        newKey = vc.generate_key_standard(fileData, vc.clean_text(key))
 
-def encrypt(text, key):
-    key = textCleaning(key)
-    # text = textCleaning(text)
-    cipher = ''
+        for idx, plainText in enumerate(fileData):
+            fileData[idx] = (plainText + ord(newKey[idx])) % BYTE_MAX
 
-    i = 0
-    for chr in text:
-        cipher += (ord(chr)+ ord(key[i])) % 256
-        i = (i+1) % len(key)
+        f.close()
 
-    cipher = bytes(cipher)
-    cipher = postProcess(cipher)
+        f = open(dest_path, 'wb')
+        f.write(fileData)
+        f.close()
 
-    return cipher
+        return True
+    except Exception as e:
+        return False
 
-def decrypt(cipher, key):
-    key = textCleaning(key)
-    # cipher = textCleaning(cipher)
-    plainText = ''
+def extended_vignere_cipher_decrypt(src_path: str, key: str, dest_path: str) -> str :
+    try:
+        f = open(src_path, 'rb')
 
-    i = 0
-    for chr in cipher:
-        plainText += (ord(chr) - ord(key[i]) + 256) % 256
-        i = (i+1) % len(key)
+        fileData = bytearray(f.read())
+        newKey = vc.generate_key_standard(fileData, vc.clean_text(key))
 
-    plainText = bytes(plainText)
-    plainText = postProcess(plainText)
+        for idx, cipherText in enumerate(fileData):
+            fileData[idx] = (cipherText - ord(newKey[idx])) % BYTE_MAX
 
-    return plainText
+        f.close()
 
-def main():
-    
-    return 0
+        f = open(dest_path, 'wb')
+        f.write(fileData)
+        f.close()
+
+        return True
+    except:
+        return False

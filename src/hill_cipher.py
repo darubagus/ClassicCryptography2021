@@ -123,6 +123,3 @@ def hill_cipher_decrypt(cipher_text: str, key: np.ndarray, modulus=26) -> str:
             plain_text += num_to_char[num]
 
     return plain_text
-
-# key = np.array([[3, 10], [15, 9]])
-# key = np.array([[17, 17, 5], [21, 18, 21], [2, 2, 19]])

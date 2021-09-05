@@ -1,8 +1,6 @@
 import re
 
-global alphabet
 alphabet = [chr(97 + i) for i in range(26)]
-
 
 def clean_text(text: str) -> str:
     res = text
@@ -58,7 +56,6 @@ def vignere_cipher_encrypt(plain_text: str, key: str) -> str:
 
     return cipher_text
 
-
 def vignere_cipher_decrypt(cipher_text: str, key: str) -> str:
     plain_text = ""
 
@@ -71,46 +68,31 @@ def vignere_cipher_decrypt(cipher_text: str, key: str) -> str:
 
     return plain_text
 
+def vignere_cipher_standard_encrypt(plain_text: str, key: str):
+    plain_text = clean_text(plain_text)
+    key = clean_text(key)
+    full_key = generate_key_standard(plain_text, key)
+
+    return vignere_cipher_encrypt(plain_text, full_key)
 
 def vignere_cipher_standard_decrypt(cipher_text: str, key: str):
-    full_key = generate_key_standard(cipher_text, clean_text(key))
+    cipher_text = clean_text(cipher_text)
+    key = clean_text(key)
+    full_key = generate_key_standard(cipher_text, key)
 
     return vignere_cipher_decrypt(cipher_text, full_key)
 
 
-def vignere_cipher_standard_encrypt(plain_text: str, key: str):
-    clean_plain_text = clean_text(plain_text)
-    full_key = generate_key_standard(clean_plain_text, clean_text(key))
-
-    return vignere_cipher_encrypt(clean_plain_text, full_key)
-
-
 def vignere_cipher_auto_key_encrypt(plain_text: str, key: str):
-    clean_plain_text = clean_text(plain_text)
-    full_key = generate_key_auto(clean_plain_text, clean_text(key))
+    plain_text = clean_text(plain_text)
+    key = clean_text(key)
+    full_key = generate_key_auto(plain_text, key)
 
-    return vignere_cipher_encrypt(clean_plain_text, full_key), full_key
+    return vignere_cipher_encrypt(plain_text, full_key), full_key
 
+def vignere_cipher_auto_key_decrypt(cipher_text: str, key: str):
+    cipher_text = clean_text(cipher_text)
+    key = clean_text(key)
+    full_key = generate_key_standard(cipher_text, key)
 
-# def main():
-#     plain_text = "simanalagi"
-#     key = "karel"
-
-#     cipher_text, full_key = vignere_cipher_standard_encrypt(plain_text, key)
-#     print(cipher_text)
-
-#     decrypt_text = vignere_cipher_decrypt(cipher_text, full_key)
-#     print(decrypt_text)
-
-#     cipher_text_2, full_key_2 = vignere_cipher_auto_key_encrypt(
-#         plain_text,
-#         key
-#     )
-#     print(cipher_text_2)
-
-#     decrypt_text = vignere_cipher_decrypt(cipher_text_2, full_key_2)
-#     print(decrypt_text)
-
-
-# if __name__ == "__main__":
-#     main()
+    return vignere_cipher_decrypt(cipher_text, full_key)
