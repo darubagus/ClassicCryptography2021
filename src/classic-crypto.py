@@ -331,8 +331,6 @@ class Ui_MainWindow(object):
         self.outputTextArea.setPlainText(res)
         self.pathFile = ""
         self.inputFileButton.setText("Input File")
-        self.inputText.setPlainText("")
-        self.inputText_2.setPlainText("")
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
